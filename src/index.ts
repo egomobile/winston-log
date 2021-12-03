@@ -124,7 +124,7 @@ export function useWinstonLogger(loggerOrProvider?: WinstonLoggerOption | null |
             l = baseLogger.debug;
         }
 
-        l.bind(baseLogger)(...args);
+        (l as any).bind(baseLogger)(...args);
     };
 }
 
