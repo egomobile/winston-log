@@ -17,7 +17,6 @@ npm install --save @egomobile/winston-log
 The following modules are defined in [peerDependencies](https://nodejs.org/uk/blog/npm/peer-dependencies/) and have to be installed manually:
 
 - [@egomobile/log](https://github.com/egomobile/js-log)
-- [winston](https://github.com/winstonjs/winston)
 
 ## Usage
 
