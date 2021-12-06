@@ -21,13 +21,29 @@ The following modules are defined in [peerDependencies](https://nodejs.org/uk/bl
 ## Usage
 
 ```typescript
-import log, { useMongoLogger } from "@egomobile/winston-log";
+import log, { useWinstonLogger, winston } from "@egomobile/winston-log";
 
-// run this, if you do not want to use console.log
-// log.reset();
+const { createLogger, format } = winston;
+
+// create the base logger, based on winston
+const myWinstonLogger = createLogger({
+  level: process.env.NODE_ENV === "development" ? "debug" : "info",
+  format: format.combine(
+    format.timestamp({
+      format: "YYYY-MM-DD HH:mm:ss",
+    }),
+    format.errors({ stack: true }),
+    format.splat(),
+    format.json()
+  ),
+  transports: [],
+});
+
+// reset, before we continue
+log.reset();
 
 // add middleware
-log.use(useWinstonLogger());
+log.use(useWinstonLogger(myWinstonLogger));
 
 log("foo"); // default: debug
 log.debug("foo"); // debug
