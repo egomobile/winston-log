@@ -13,23 +13,23 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import _winston from 'winston';
 import log, { LoggerMiddleware, LogType } from '@egomobile/log';
 import { createLogger, format, Logger, transports } from 'winston';
 import type { IUseWinstonLoggerOptions, LogTypeProvider, WinstonLoggerOption, WinstonLoggerProvider } from './types';
 
 /**
- * The default name of the logs collection.
- */
-export const defaultMongoCollection = 'logs';
-
-/**
- * Creates a new middleware, that logs to a mongo database collection.
+ * Creates a new middleware, that uses a winston as base logger.
  *
  * @example
  * ```
  * import log, { useWinstonLogger } from "@egomobile/winston-log"
  *
+ * log.reset()
+ *
  * // add as additional middleware
+ * // use a default console based logger
+ * // implemented with winston
  * log.use(useWinstonLogger())
  *
  * log("foo")  // default: debug
@@ -111,7 +111,7 @@ export function useWinstonLogger(loggerOrProvider?: WinstonLoggerOption | null |
             type = getDefaultLogType();
         }
 
-        let l: (message: string, ...meta: any[]) => void = baseLogger.debug;
+        let l: (message: string, ...meta: any[]) => void;
         if (type === LogType.Error) {
             l = baseLogger.error;
         } else if (type === LogType.Info) {
@@ -120,8 +120,8 @@ export function useWinstonLogger(loggerOrProvider?: WinstonLoggerOption | null |
             l = baseLogger.verbose;
         } else if (type === LogType.Warn) {
             l = baseLogger.warn;
-        } else if (type === LogType.Debug) {
-            l = baseLogger.debug;
+        } else {
+            l = baseLogger.debug;  // default
         }
 
         (l as any).bind(baseLogger)(...args);
@@ -130,6 +130,9 @@ export function useWinstonLogger(loggerOrProvider?: WinstonLoggerOption | null |
 
 // also export anything from @egomobile/log
 export * from '@egomobile/log';
+
+// export winston
+export const winston = _winston;
 
 // make default logger instance available as
 // default export
