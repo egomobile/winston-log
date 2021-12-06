@@ -23,7 +23,7 @@ The following modules are defined in [peerDependencies](https://nodejs.org/uk/bl
 ```typescript
 import log, { useWinstonLogger, winston } from "@egomobile/winston-log";
 
-const { createLogger, format } = winston;
+const { createLogger, format, transports } = winston;
 
 // create the base logger, based on winston
 const myWinstonLogger = createLogger({
@@ -38,6 +38,13 @@ const myWinstonLogger = createLogger({
   ),
   transports: [],
 });
+
+// console output
+myWinstonLogger.add(
+  new transports.Console({
+    format: format.combine(format.colorize(), format.simple()),
+  })
+);
 
 // reset, before we continue
 log.reset();
