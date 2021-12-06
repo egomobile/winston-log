@@ -111,7 +111,7 @@ export function useWinstonLogger(loggerOrProvider?: WinstonLoggerOption | null |
             type = getDefaultLogType();
         }
 
-        let l: (message: string, ...meta: any[]) => void = baseLogger.debug;
+        let l: (message: string, ...meta: any[]) => void;
         if (type === LogType.Error) {
             l = baseLogger.error;
         } else if (type === LogType.Info) {
