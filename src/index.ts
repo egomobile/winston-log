@@ -25,7 +25,7 @@ import type { IUseWinstonLoggerOptions, LogTypeProvider, WinstonLoggerOption, Wi
  * ```
  * import log, { useWinstonLogger } from "@egomobile/winston-log"
  *
- * log.reset();
+ * log.reset()
  *
  * // add as additional middleware
  * // use a default console based logger
